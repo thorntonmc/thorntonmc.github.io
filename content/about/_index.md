@@ -8,3 +8,5 @@ enableComments = false
 +++
 
 Hi! This is my attempt to start up a blog where I can document and write about some of the work I've been doing with go, kubernetes, and microservices in general.
+
+Is the about changing? Hmm???

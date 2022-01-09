@@ -1,76 +1,166 @@
-baseURL: https://mthornton.dev
-languageCode: en-us
+baseURL: "https://adityatelange.github.io/hugo-PaperMod/"
 title: Michael Thornton
-theme: hugo-theme-mini
+paginate: 5
+theme: papermod
 
-# Default content language, support en (English) / zh (Chinese) / nl (Dutch) / fr (French), default 'en'
-defaultContentLanguage: en
+enableInlineShortcodes: true
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+enableEmoji: true
+# googleAnalytics: UA-123-45
 
-hasCJKLanguage: true
-permalinks:
-  posts: /posts/:title/
+minify:
+    disableXML: true
+    # minifyOutput: true
 
-googleAnalytics: your-google-analytics-id
+languages:
+    en:
+        languageName: ":us:"
+        weight: 1
+        menu:
+            main:
+                - name: Archive
+                  url: archives
+                  weight: 5
+                - name: Search
+                  url: search/
+                  weight: 10
+                - name: Tags
+                  url: tags/
+                  weight: 10
+                - name: Categories
+                  url: categories/
+                  weight: 10
+        homeInfoParams:
+          Title: "Welcome!"
+          Content: "Hi! I'm Michael and I'm a software engineer. Hoping to kickstart a blog here as I start diving more into Kubernetes, Go, and microservices in general."
 
-# Hugo Configure Markup
-# More info: https://gohugo.io/getting-started/configuration-markup#
-markup:
-  highlight:
-    guessSyntax: true
-    style: emacs
-  tableOfContents:
-    endLevel: 3
-    ordered: false
-    startLevel: 2
+    tr:
+        languageName: ":tr:"
+        languageAltTitle: Turkish
+        weight: 2
+        homeInfoParams:
+            title: Hoş Geldiniz!
+            content: Selam! Benim adim Michael, yazılım mühendisiyim. Türkçe öğreniyorum!  Bu gonderiler çok basit ve sadece dil pratikleri olacak
+        menu:
+            main:
+                - name: Archive
+                  url: archives/
+                  weight: 5
+                - name: Tags
+                  url: tags
+                  weight: 10
+                - name: Categories
+                  url: categories
+                  weight: 10
 
-# Social links in footer, support github,twitter,stackoverflow,facebook
-social:
-  # e.g.
-  github: https://github.com/thorntonmc
+outputs:
+    home:
+        - HTML
+        - RSS
+        - JSON
 
-# Site parameters
 params:
-  # Site Author
-  author: Michael Thornton
-  # Author biography
-  bio: Software Engineer
-  # Site Description, used in HTML meat
-  description: My Blog
+    env: production # to enable google analytics, opengraph, twitter-cards and schema.
+    description: "Theme PaperMod - https://github.com/adityatelange/hugo-PaperMod"
+    author: Theme PaperMod
+    # author: ["Me", "You"] # multiple authors
 
+    defaultTheme: light
+    # disableThemeToggle: true
+    ShowShareButtons: false
+    ShowReadingTime: true
+    # disableSpecial1stPost: true
+    displayFullLangName: true
+    ShowPostNavLinks: true
+    ShowBreadCrumbs: true
+    ShowCodeCopyButtons: true
+    ShowToc: true
+    # comments: false
+    images: ["papermod-cover.png"]
 
-  ###########################################
-  # Optional Configuration
-  ###########################################
+    socialIcons:
+        - name: github
+          url: "https://github.com/thorntomc"
+        - name: RsS
+          url: "index.xml"
 
-  # To enable RSS, you could set `enableRSS: true`, default is `true`
-  enableRSS: true
-  # To enable comments, you may need to set `disqusShortname`
-  enableComments: false
-  # To enable comments, you may need to set `googleAnalytics`
-  enableGoogleAnalytics: true
-  # To enable table of content, you could set `showToc: true`, default is `false`
-  showToc: true
-  # To hidden powerBy message in the page footer, you could set: `showPowerBy: false`, default is `true`
-  showPowerBy: true
-  # To enable math typesetting , you could set `math: true`, default is `false`
-  math: false
-  # To hidden post summary in home page, you could set `hiddenPostSummaryInHomePage: true`, default is `false`
-  hiddenPostSummaryInHomePage: false
-  # Website copy write, default: '© Copyright 2021 ❤️ {params.author}'
-  copyright: '' 
+    editPost:
+        URL: "https://github.com/thorntonmc/thorntonmc.github.io/content"
+        Text: "Suggest Changes" # edit text
+        appendFilePath: true # to append file path to Edit link
+    
+    hideFooter: true
 
-  # Extra links in navigation
-  links:
-    ## e.g.
-    # - name: Project
-    #   path: /project
+    # label:
+    #     text: "Home"
+    #     icon: icon.png
+    #     iconHeight: 35
 
-  # You can put your custom css and js to `static` directory, or use remote css and js files which start with `http://` or `https://`
-  customCSS:
-    ## e.g.
-    # - css/custom.css # local css in `static/css/custom.css`
-    # - https://example.com/custom.css # remote css
-  customJS:
-    ## e.g.
-    # - js/custom.js # local js in `static/js/custom.js`
-    # - https://example.com/custom.js # remote js
+    # analytics:
+    #     google:
+    #         SiteVerificationTag: "XYZabc"
+
+    # assets:
+    #     favicon: "<link / abs url>"
+    #     favicon16x16: "<link / abs url>"
+    #     favicon32x32: "<link / abs url>"
+    #     apple_touch_icon: "<link / abs url>"
+    #     safari_pinned_tab: "<link / abs url>"
+
+    # cover:
+    #     hidden: true # hide everywhere but not in structured data
+    #     hiddenInList: true # hide on list pages and home
+    #     hiddenInSingle: true # hide on single page
+
+    # fuseOpts:
+    #     isCaseSensitive: false
+    #     shouldSort: true
+    #     location: 0
+    #     distance: 1000
+    #     threshold: 0.4
+    #     minMatchCharLength: 0
+    #     keys: ["title", "permalink", "summary", "content"]
+
+taxonomies:
+    category: categories
+    tag: tags
+    series: series
+
+markup:
+    goldmark:
+        renderer:
+            unsafe: true
+#     highlight:
+#         # anchorLineNos: true
+#         codeFences: true
+#         guessSyntax: true
+#         lineNos: true
+#         # noClasses: false
+#         style: monokai
+
+privacy:
+    vimeo:
+        disabled: false
+        simple: true
+
+    twitter:
+        disabled: false
+        enableDNT: true
+        simple: true
+
+    instagram:
+        disabled: false
+        simple: true
+
+    youtube:
+        disabled: false
+        privacyEnhanced: true
+
+services:
+    instagram:
+        disableInlineCSS: true
+    twitter:
+        disableInlineCSS: true
