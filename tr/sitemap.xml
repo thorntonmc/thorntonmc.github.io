@@ -2,81 +2,81 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>mthornton.dev/tr/posts/turkish/my-first-post/</loc>
+    <loc>https://thorntonmc.github.io/tr/posts/turkish/my-first-post/</loc>
     <lastmod>2022-01-07T18:32:46-05:00</lastmod>
   </url><url>
-    <loc>mthornton.dev/tr/</loc>
-    <lastmod>2022-01-07T18:32:46-05:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="mthornton.dev/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="tr"
-                href="mthornton.dev/tr/"
-                />
-  </url><url>
-    <loc>mthornton.dev/tr/posts/</loc>
+    <loc>https://thorntonmc.github.io/tr/</loc>
     <lastmod>2022-01-07T18:32:46-05:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="mthornton.dev/posts/"
+                href="https://thorntonmc.github.io/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="tr"
-                href="mthornton.dev/tr/posts/"
+                href="https://thorntonmc.github.io/tr/"
                 />
   </url><url>
-    <loc>mthornton.dev/tr/archives/</loc>
+    <loc>https://thorntonmc.github.io/tr/posts/</loc>
+    <lastmod>2022-01-07T18:32:46-05:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="mthornton.dev/archives/"
+                href="https://thorntonmc.github.io/posts/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="tr"
-                href="mthornton.dev/tr/archives/"
+                href="https://thorntonmc.github.io/tr/posts/"
                 />
   </url><url>
-    <loc>mthornton.dev/tr/categories/</loc>
+    <loc>https://thorntonmc.github.io/tr/archives/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="mthornton.dev/categories/"
+                href="https://thorntonmc.github.io/archives/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="tr"
-                href="mthornton.dev/tr/categories/"
+                href="https://thorntonmc.github.io/tr/archives/"
                 />
   </url><url>
-    <loc>mthornton.dev/tr/series/</loc>
+    <loc>https://thorntonmc.github.io/tr/categories/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="mthornton.dev/series/"
+                href="https://thorntonmc.github.io/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="tr"
-                href="mthornton.dev/tr/series/"
+                href="https://thorntonmc.github.io/tr/categories/"
                 />
   </url><url>
-    <loc>mthornton.dev/tr/tags/</loc>
+    <loc>https://thorntonmc.github.io/tr/series/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="mthornton.dev/tags/"
+                href="https://thorntonmc.github.io/series/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="tr"
-                href="mthornton.dev/tr/tags/"
+                href="https://thorntonmc.github.io/tr/series/"
+                />
+  </url><url>
+    <loc>https://thorntonmc.github.io/tr/tags/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://thorntonmc.github.io/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="tr"
+                href="https://thorntonmc.github.io/tr/tags/"
                 />
   </url>
 </urlset>

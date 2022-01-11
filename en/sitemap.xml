@@ -2,88 +2,88 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>mthornton.dev/about/</loc>
+    <loc>https://thorntonmc.github.io/about/</loc>
     <lastmod>2019-02-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>mthornton.dev/</loc>
+    <loc>https://thorntonmc.github.io/</loc>
     <lastmod>2019-02-28T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="tr"
-                href="mthornton.dev/tr/"
+                href="https://thorntonmc.github.io/tr/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="mthornton.dev/"
+                href="https://thorntonmc.github.io/"
                 />
   </url><url>
-    <loc>mthornton.dev/posts/sre-challenge/sre-challenge/</loc>
+    <loc>https://thorntonmc.github.io/posts/sre-challenge/sre-challenge/</loc>
   </url><url>
-    <loc>mthornton.dev/archives/</loc>
+    <loc>https://thorntonmc.github.io/archives/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="tr"
-                href="mthornton.dev/tr/archives/"
+                href="https://thorntonmc.github.io/tr/archives/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="mthornton.dev/archives/"
+                href="https://thorntonmc.github.io/archives/"
                 />
   </url><url>
-    <loc>mthornton.dev/categories/</loc>
+    <loc>https://thorntonmc.github.io/categories/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="tr"
-                href="mthornton.dev/tr/categories/"
+                href="https://thorntonmc.github.io/tr/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="mthornton.dev/categories/"
+                href="https://thorntonmc.github.io/categories/"
                 />
   </url><url>
-    <loc>mthornton.dev/posts/</loc>
+    <loc>https://thorntonmc.github.io/posts/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="tr"
-                href="mthornton.dev/tr/posts/"
+                href="https://thorntonmc.github.io/tr/posts/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="mthornton.dev/posts/"
+                href="https://thorntonmc.github.io/posts/"
                 />
   </url><url>
-    <loc>mthornton.dev/search/</loc>
+    <loc>https://thorntonmc.github.io/search/</loc>
   </url><url>
-    <loc>mthornton.dev/series/</loc>
+    <loc>https://thorntonmc.github.io/series/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="tr"
-                href="mthornton.dev/tr/series/"
+                href="https://thorntonmc.github.io/tr/series/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="mthornton.dev/series/"
+                href="https://thorntonmc.github.io/series/"
                 />
   </url><url>
-    <loc>mthornton.dev/categories/sre/</loc>
+    <loc>https://thorntonmc.github.io/categories/sre/</loc>
   </url><url>
-    <loc>mthornton.dev/tags/sre-challenge/</loc>
+    <loc>https://thorntonmc.github.io/tags/sre-challenge/</loc>
   </url><url>
-    <loc>mthornton.dev/tags/</loc>
+    <loc>https://thorntonmc.github.io/tags/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="tr"
-                href="mthornton.dev/tr/tags/"
+                href="https://thorntonmc.github.io/tr/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="mthornton.dev/tags/"
+                href="https://thorntonmc.github.io/tags/"
                 />
   </url>
 </urlset>

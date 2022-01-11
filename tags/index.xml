@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Tags on Michael Thornton</title>
-    <link>mthornton.dev/tags/</link>
+    <link>https://thorntonmc.github.io/tags/</link>
     <description>Recent content in Tags on Michael Thornton</description>
     <image>
-      <url>mthornton.dev/papermod-cover.png</url>
-      <link>mthornton.dev/papermod-cover.png</link>
+      <url>https://thorntonmc.github.io/papermod-cover.png</url>
+      <link>https://thorntonmc.github.io/papermod-cover.png</link>
     </image>
-    <generator>Hugo -- gohugo.io</generator><atom:link href="mthornton.dev/tags/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://thorntonmc.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>sre-challenge</title>
-      <link>mthornton.dev/tags/sre-challenge/</link>
+      <link>https://thorntonmc.github.io/tags/sre-challenge/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>mthornton.dev/tags/sre-challenge/</guid>
+      <guid>https://thorntonmc.github.io/tags/sre-challenge/</guid>
       <description></description>
     </item>
     

@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Michael Thornton</title>
-    <link>mthornton.dev/tr/</link>
+    <link>https://thorntonmc.github.io/tr/</link>
     <description>Recent content on Michael Thornton</description>
     <image>
-      <url>mthornton.dev/papermod-cover.png</url>
-      <link>mthornton.dev/papermod-cover.png</link>
+      <url>https://thorntonmc.github.io/papermod-cover.png</url>
+      <link>https://thorntonmc.github.io/papermod-cover.png</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 07 Jan 2022 18:32:46 -0500</lastBuildDate><atom:link href="mthornton.dev/tr/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 07 Jan 2022 18:32:46 -0500</lastBuildDate><atom:link href="https://thorntonmc.github.io/tr/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hoş Geldiniz!</title>
-      <link>mthornton.dev/tr/posts/turkish/my-first-post/</link>
+      <link>https://thorntonmc.github.io/tr/posts/turkish/my-first-post/</link>
       <pubDate>Fri, 07 Jan 2022 18:32:46 -0500</pubDate>
       
-      <guid>mthornton.dev/tr/posts/turkish/my-first-post/</guid>
+      <guid>https://thorntonmc.github.io/tr/posts/turkish/my-first-post/</guid>
       <description>Merhaba! Benim adim Michael, memnun oldum. 🇹🇷
 Biliyorum çok biraz Türkçe, veya pratik istiyorum!
 Görüşürüz!</description>

@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Posts on Michael Thornton</title>
-    <link>mthornton.dev/posts/</link>
+    <link>https://thorntonmc.github.io/posts/</link>
     <description>Recent content in Posts on Michael Thornton</description>
     <image>
-      <url>mthornton.dev/papermod-cover.png</url>
-      <link>mthornton.dev/papermod-cover.png</link>
+      <url>https://thorntonmc.github.io/papermod-cover.png</url>
+      <link>https://thorntonmc.github.io/papermod-cover.png</link>
     </image>
-    <generator>Hugo -- gohugo.io</generator><atom:link href="mthornton.dev/posts/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://thorntonmc.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>A Reddit SRE Challenge</title>
-      <link>mthornton.dev/posts/sre-challenge/sre-challenge/</link>
+      <link>https://thorntonmc.github.io/posts/sre-challenge/sre-challenge/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>mthornton.dev/posts/sre-challenge/sre-challenge/</guid>
+      <guid>https://thorntonmc.github.io/posts/sre-challenge/sre-challenge/</guid>
       <description>Introduction There was a thread on the devops subreddit going around about a interview challenge for a junior SRE position. Considering I&amp;rsquo;ve been doing more work that might be classified under this role, I figured I&amp;rsquo;d give it a try. Lets take a look at the README.md, I&amp;rsquo;ve reworked it a bit for brevity, you can see the original on github, along with all of the code described in this post:</description>
     </item>
     
