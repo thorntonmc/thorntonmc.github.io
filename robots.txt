@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: mthornton.dev/sitemap.xml
