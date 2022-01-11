@@ -1,4 +1,4 @@
-baseURL: "mthornton.dev"
+baseURL: "https://thorntonmc.github.io"
 title: Michael Thornton
 paginate: 5
 theme: papermod
