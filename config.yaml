@@ -1,4 +1,4 @@
-baseURL: "https://adityatelange.github.io/hugo-PaperMod/"
+baseURL: "mthornton.dev"
 title: Michael Thornton
 paginate: 5
 theme: papermod
@@ -83,7 +83,7 @@ params:
 
     socialIcons:
         - name: github
-          url: "https://github.com/thorntomc"
+          url: "https://github.com/thorntonmc"
         - name: RsS
           url: "index.xml"
 
