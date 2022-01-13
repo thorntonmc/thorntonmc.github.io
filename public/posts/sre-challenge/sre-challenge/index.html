@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>A Reddit SRE Challenge - Part 1 | Michael Thornton</title>
+<meta name="keywords" content="sre-challenge" />
+<meta name="description" content="Introduction There was a thread on the devops subreddit going around about a interview challenge for a junior SRE position. Considering I&rsquo;ve been doing more work that might be classified under this role, I figured I&rsquo;d give it a try. Lets take a look at the README.md, I&rsquo;ve reworked it a bit for brevity, you can see the original on github, along with all of the code described in this post:">
+<meta name="author" content="Michael Thornton">
+<link rel="canonical" href="https://thorntonmc.github.io/posts/sre-challenge/sre-challenge/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.c88963fe2d79462000fd0fb1b3737783c32855d340583e4523343f8735c787f0.css" integrity="sha256-yIlj/i15RiAA/Q&#43;xs3N3g8MoVdNAWD5FIzQ/hzXHh/A=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://thorntonmc.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://thorntonmc.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://thorntonmc.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://thorntonmc.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://thorntonmc.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<meta name="generator" content="Hugo 0.91.2" />
+<link rel="alternate" hreflang="en" href="https://thorntonmc.github.io/posts/sre-challenge/sre-challenge/" />
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript><meta property="og:title" content="A Reddit SRE Challenge - Part 1" />
+<meta property="og:description" content="Introduction There was a thread on the devops subreddit going around about a interview challenge for a junior SRE position. Considering I&rsquo;ve been doing more work that might be classified under this role, I figured I&rsquo;d give it a try. Lets take a look at the README.md, I&rsquo;ve reworked it a bit for brevity, you can see the original on github, along with all of the code described in this post:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://thorntonmc.github.io/posts/sre-challenge/sre-challenge/" /><meta property="og:image" content="https://thorntonmc.github.io/papermod-cover.png"/><meta property="article:section" content="posts" />
+
+
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://thorntonmc.github.io/papermod-cover.png"/>
+
+<meta name="twitter:title" content="A Reddit SRE Challenge - Part 1"/>
+<meta name="twitter:description" content="Introduction There was a thread on the devops subreddit going around about a interview challenge for a junior SRE position. Considering I&rsquo;ve been doing more work that might be classified under this role, I figured I&rsquo;d give it a try. Lets take a look at the README.md, I&rsquo;ve reworked it a bit for brevity, you can see the original on github, along with all of the code described in this post:"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Posts",
+      "item": "https://thorntonmc.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "A Reddit SRE Challenge - Part 1",
+      "item": "https://thorntonmc.github.io/posts/sre-challenge/sre-challenge/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "A Reddit SRE Challenge - Part 1",
+  "name": "A Reddit SRE Challenge - Part 1",
+  "description": "Introduction There was a thread on the devops subreddit going around about a interview challenge for a junior SRE position. Considering I\u0026rsquo;ve been doing more work that might be classified under this role, I figured I\u0026rsquo;d give it a try. Lets take a look at the README.md, I\u0026rsquo;ve reworked it a bit for brevity, you can see the original on github, along with all of the code described in this post:",
+  "keywords": [
+    "sre-challenge"
+  ],
+  "articleBody": "Introduction There was a thread on the devops subreddit going around about a interview challenge for a junior SRE position. Considering I’ve been doing more work that might be classified under this role, I figured I’d give it a try. Lets take a look at the README.md, I’ve reworked it a bit for brevity, you can see the original on github, along with all of the code described in this post:\n   Using Go, write a simple application, http server, which serves 2 endpoints:\n /requests, which increments the hits in in redis and additionally returns hello, world to the caller “/queries” will return the number of hits recorded in redis    Build a helm chart of the http server you wrote. Explain which kind of k8s resource you picked and why? Add liveness and readiness Expose the service port to 3030 Install kind to test you application and install the helm chart\n  Build a github actions file that triggers a build on specific wildcard PR (build) and one merge to master and create tags, which builds your container, run unit tests, and saves to the registry with the correct version.\n   There were originally some other items which I won’t be tackling at this time (I won’t be terraforming to EKS or GCP, though I did use terraform as my original deployment)\nWriting the HTTP Server Let’s get started and write our HTTP server so we can get into the fun stuff, starting with our basic struct:\ntype App struct { listenAddr string mux *http.ServeMux rdb *redis.Client } This is pretty straightforward, our App does three things: it listens on a desired address and port, routes paths via a ServeMux, and gets and sets our redis cache. The rest of this article will be implementing this functionality.\nConfig Options While this is a fairly barebones API, there is some level of configuration we should pass; namely the redis address and password, and the port we should listen on. Let’s define our struct:\ntype Config struct { port int redisAddress string redisPassword string } In this example, we’ll simply set the value from our enviornment variables, so our init function is quite simple\nfunc NewConfigFromEnv() Config { return newConfigFromEnv() } func newConfigFromEnv() Config { portOverride, ok := os.LookupEnv(\"APP_PORT\") if ok { portOverride, err := strconv.Atoi(portOverride) if err != nil { log.Fatalf(\"Failed to parse port override\") } port = portOverride } redisAddressOverride, ok := os.LookupEnv(\"REDIS_ADDRESS\") if ok { redisAddress = redisAddressOverride } redisPortOverride, ok := os.LookupEnv(\"REDIS_PORT\") if ok { log.Printf(\"have redisPortOverride %s\", redisPortOverride) redisPortOverride, err := strconv.Atoi(redisPortOverride) if err != nil { log.Fatalf(\"Failed to parse redis port override\") } redisPort = redisPortOverride } return Config{ port: port, redisAddress: fmt.Sprintf(\"%s:%d\", redisAddress, redisPort), redisPassword: redisPassword, } } Creating the Redis Client Our application needs a redis client so that it can get/set keys upon request, so let’s create this in a new file redis.go\nfunc NewRedisClient(addr, password string) *redis.Client { log.Printf(\"configuring redis at %s\", addr) rdb := redis.NewClient(\u0026redis.Options{ Addr: addr, Password: password, DB: 0, }) return rdb } We’ll also want some functions to get/set our “hits” key, so let’s add them too:\nfunc (a *App) setHits(val string) error { err := a.rdb.Set(context.Background(), \"hits\", val, 0).Err() if err != nil { return err } return nil } func (a *App) getHits() (string, error) { hits, err := a.rdb.Get(context.Background(), \"hits\").Result() if err != nil { return \"\", err } return hits, err } The requirement states that we need to either create the hits key or increment it each call to /requests, so we’ll create that logic as well:\nfunc (a *App) updateHits() error { var hits string hits, err := a.getHits() if err == redis.Nil { // key does not exist, so set it to 1 \terr := a.setHits(\"1\") if err != nil { return err } return nil } if err != nil { return err } return a.incrementHits(hits) // increment the current value } func (a *App) incrementHits(hits string) error { hitsInt, err := strconv.Atoi(hits) if err != nil { return err } hitsInt += 1 hits = strconv.Itoa(hitsInt) return = a.setHits(hits) } Routing Requests The last thing our application needs a serveMux in order to route our requests. We need to handle two routes /requests and /queries – since these routes will utilize the redis connection created as a part of our application, we’ll make them methods of our app:\nfunc (a *App) handleRequests(w http.ResponseWriter, r *http.Request) { err := a.updateHits() if err != nil { log.Println(err.Error()) w.WriteHeader(http.StatusInternalServerError) w.Write([]byte(err.Error())) return } w.WriteHeader(http.StatusOK) w.Write([]byte(\"Hello, World\\n\")) } func (a *App) handleQueries(w http.ResponseWriter, r *http.Request) { hits, err := a.getHits() if err == redis.Nil { w.Write([]byte(\"0\\n\")) w.WriteHeader(http.StatusOK) return } if err != nil { w.Write([]byte(err.Error())) w.WriteHeader(http.StatusInternalServerError) return } w.Write([]byte(hits)) w.WriteHeader(http.StatusOK) } Now our app is ready to be used! Let’s throw in an init method so that we can easily run it from our calling function, and we also need a simple method to actually start the http server:\n// NewApp returns a new bare application with a webserver configured and ready func NewApp(c Config) *App { return newApp(c) } func newApp(c Config) *App { app := \u0026App{} mux := http.NewServeMux() mux.HandleFunc(\"/requests\", app.handleRequests) mux.HandleFunc(\"/queries\", app.handleQueries) app.mux = mux app.rdb = NewRedisClient(c.redisAddress, c.redisPassword) app.listenAddr = fmt.Sprintf(\":%d\", port) return app } func (a *App) Serve() { log.Printf(\"Listening on %s\", a.listenAddr) log.Fatal(http.ListenAndServe(a.listenAddr, a.mux)) } Excellent! Now our app can be initialized, and the listener can be started simply by importing the package! This is the last missing piece of this puzzle. To run the application from the command line easily, I used the cobra package. The usage readme and user guide are helpful with getting setup, but in a nutshell, cobra creates a main.go in your root directory and also creates cmd/root.go. main.go then imports cmd/root.go which contains all the information around how your program handles flags and commands. Ours is simple, as we can see:\nmain.go\npackage main import ( \"github.com/thorntonmc/sre-challenge/cmd\" ) func main() { cmd.Execute() } cmd/root.go\nimport ( \"fmt\" \"os\" app \"github.com/thorntonmc/sre-challenge/internal\" \"github.com/spf13/cobra\" \"github.com/spf13/viper\" ) // This file also contains the scaffolding for your cli application, but what's important is what is in rootCmd var rootCmd = \u0026cobra.Command{ Use: \"sre-challenge\", Short: \"Junior SRE Interview\", Long: \"Junior SRE Interview\", Run: func(cmd *cobra.Command, args []string) { c := app.NewConfigFromEnv() a := app.NewApp(c) a.Serve() }, } In a nutshell, cobra will run what’s inside rootCmd when the application is run with no parameters, which is what we want as there aren’t any flags that are used in this program. The Run function is very simple, we simply initialize our config via the package we wrote earlier, then create a new application via NewApp, and then run our server.\nNow we’re ready to test it out! Since we want to keep our a build, tests, and deploys idempotent, lets keep our habits in check by putting our build steps in a Makefile\n./Makefile\n.DEFAULT_GOAL := build # default to the build target MAKEFLAGS= -s . # makefile is silent BUILD_DIR=./build fmt: go fmt ./ build: fmt go build -o $(BUILD_DIR)/sre-challenge.go ./main.go install: fmt build go install clean: rm -rf $(BUILD_DIR) Cool! Now we when we want to build our application we can simply type make build and the binary will be created in ./build/sre-challenge.go – and since we’ve also set build to be our default goal, we can actually just type make to build our application.\nThe install target will also install our binary to $GOPATH/bin\nmichaelthornton@work:~/sre-challenge [main] $ make install michaelthornton@work:~/sre-challenge [main] $ ls $GOPATH/bin cobra cr go-outline gopls sre-challenge So now we can run our app! Let’s try it out\nmichaelthornton@work:~/sre-challenge [main] $ sre-challenge 2022/01/11 09:56:45 configuring redis at redis.sre-challenge:6379 2022/01/11 09:56:45 Listening on :8080 This is great! However since we have no redis server installed - the server is basically useless. In our next post, we’ll deploy this application and a redis cache to a local kubernetes cluster.\n",
+  "wordCount" : "1310",
+  "inLanguage": "en",
+  "datePublished": "0001-01-01T00:00:00Z",
+  "dateModified": "0001-01-01T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Michael Thornton"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://thorntonmc.github.io/posts/sre-challenge/sre-challenge/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Michael Thornton",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://thorntonmc.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://thorntonmc.github.io" accesskey="h" title="Michael Thornton (Alt + H)">Michael Thornton</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <ul class="lang-switch"><li>|</li>
+                    <li>
+                        <a href="https://thorntonmc.github.io/tr/" title="Turkish"
+                            aria-label=":tr:">🇹🇷</a>
+                    </li>
+                </ul>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://thorntonmc.github.io/archives" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://thorntonmc.github.io/categories/" title="Categories">
+                    <span>Categories</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://thorntonmc.github.io/search/" title="Search (Alt &#43; /)" accesskey=/>
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://thorntonmc.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://thorntonmc.github.io">Home</a>&nbsp;»&nbsp;<a href="https://thorntonmc.github.io/posts/">Posts</a></div>
+    <h1 class="post-title">
+      A Reddit SRE Challenge - Part 1
+    </h1>
+    <div class="post-meta">7 min&nbsp;·&nbsp;Michael Thornton&nbsp;|&nbsp;<a href="https://github.com/thorntonmc/thorntonmc.github.io/tree/main/content/posts/sre-challenge/sre-challenge.md" rel="noopener noreferrer" target="_blank">Suggest Changes</a>
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#introduction" aria-label="Introduction">Introduction</a></li>
+                <li>
+                    <a href="#writing-the-http-server" aria-label="Writing the HTTP Server">Writing the HTTP Server</a><ul>
+                        
+                <li>
+                    <a href="#config-options" aria-label="Config Options">Config Options</a></li>
+                <li>
+                    <a href="#creating-the-redis-client" aria-label="Creating the Redis Client">Creating the Redis Client</a></li>
+                <li>
+                    <a href="#routing-requests" aria-label="Routing Requests">Routing Requests</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="introduction">Introduction<a hidden class="anchor" aria-hidden="true" href="#introduction">#</a></h2>
+<p>There was a thread on the devops subreddit going around about a interview challenge for a junior SRE position. Considering I&rsquo;ve been doing more work that might be classified under this role, I figured I&rsquo;d give it a try. Lets take a look at the README.md, I&rsquo;ve reworked it a bit for brevity, you can see the original on <a href="https://github.com/thorntonmc/sre-challenge">github</a>, along with all of the code described in this post:</p>
+<blockquote>
+<ol>
+<li>
+<p>Using Go, write a simple application, http server, which serves 2 endpoints:</p>
+<ul>
+<li><code>/requests</code>, which increments the hits in in redis and additionally returns <code>hello, world</code> to the caller</li>
+<li><code>“/queries”</code> will return the number of hits recorded in redis</li>
+</ul>
+</li>
+<li>
+<p>Build a helm chart of the http server you wrote. Explain which kind of k8s resource you picked and why? Add liveness and readiness Expose the service port to 3030 Install kind to test you application and install the helm chart</p>
+</li>
+<li>
+<p>Build a github actions file that triggers a build on specific wildcard PR (<em>build</em>) and one merge to master and create tags, which builds your container, run unit tests, and saves to the registry with the correct version.</p>
+</li>
+</ol>
+</blockquote>
+<p>There were originally some other items which I won&rsquo;t be tackling at this time (I won&rsquo;t be terraforming to EKS or GCP, though I did use terraform as my original deployment)</p>
+<h2 id="writing-the-http-server">Writing the HTTP Server<a hidden class="anchor" aria-hidden="true" href="#writing-the-http-server">#</a></h2>
+<p>Let&rsquo;s get started and write our HTTP server so we can get into the fun stuff, starting with our basic struct:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">App</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">listenAddr</span> <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">mux</span>        <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ServeMux</span>
+	<span style="color:#a6e22e">rdb</span>        <span style="color:#f92672">*</span><span style="color:#a6e22e">redis</span>.<span style="color:#a6e22e">Client</span>
+}
+</code></pre></div><p>This is pretty straightforward, our <code>App</code> does three things: it listens on a desired address and port, routes paths via a <code>ServeMux</code>, and gets and sets our redis cache. The rest of this article will be implementing this functionality.</p>
+<h3 id="config-options">Config Options<a hidden class="anchor" aria-hidden="true" href="#config-options">#</a></h3>
+<p>While this is a fairly barebones API, there is some level of configuration we should pass; namely the redis address and password, and the port we should listen on. Let&rsquo;s define our struct:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Config</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">port</span>          <span style="color:#66d9ef">int</span>
+	<span style="color:#a6e22e">redisAddress</span>  <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">redisPassword</span> <span style="color:#66d9ef">string</span>
+}
+</code></pre></div><p>In this example, we&rsquo;ll simply set the value from our enviornment variables, so our init function is quite simple</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewConfigFromEnv</span>() <span style="color:#a6e22e">Config</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">newConfigFromEnv</span>()
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newConfigFromEnv</span>() <span style="color:#a6e22e">Config</span> {
+	<span style="color:#a6e22e">portOverride</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">LookupEnv</span>(<span style="color:#e6db74">&#34;APP_PORT&#34;</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">ok</span> {
+		<span style="color:#a6e22e">portOverride</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">Atoi</span>(<span style="color:#a6e22e">portOverride</span>)
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+			<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;Failed to parse port override&#34;</span>)
+		}
+		<span style="color:#a6e22e">port</span> = <span style="color:#a6e22e">portOverride</span>
+	}
+
+	<span style="color:#a6e22e">redisAddressOverride</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">LookupEnv</span>(<span style="color:#e6db74">&#34;REDIS_ADDRESS&#34;</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">ok</span> {
+		<span style="color:#a6e22e">redisAddress</span> = <span style="color:#a6e22e">redisAddressOverride</span>
+	}
+
+	<span style="color:#a6e22e">redisPortOverride</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">LookupEnv</span>(<span style="color:#e6db74">&#34;REDIS_PORT&#34;</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">ok</span> {
+		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;have redisPortOverride %s&#34;</span>, <span style="color:#a6e22e">redisPortOverride</span>)
+		<span style="color:#a6e22e">redisPortOverride</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">Atoi</span>(<span style="color:#a6e22e">redisPortOverride</span>)
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+			<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;Failed to parse redis port override&#34;</span>)
+		}
+		<span style="color:#a6e22e">redisPort</span> = <span style="color:#a6e22e">redisPortOverride</span>
+	}
+
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">Config</span>{
+		<span style="color:#a6e22e">port</span>:          <span style="color:#a6e22e">port</span>,
+		<span style="color:#a6e22e">redisAddress</span>:  <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;%s:%d&#34;</span>, <span style="color:#a6e22e">redisAddress</span>, <span style="color:#a6e22e">redisPort</span>),
+		<span style="color:#a6e22e">redisPassword</span>: <span style="color:#a6e22e">redisPassword</span>,
+	}
+}
+</code></pre></div><h3 id="creating-the-redis-client">Creating the Redis Client<a hidden class="anchor" aria-hidden="true" href="#creating-the-redis-client">#</a></h3>
+<p>Our application needs a redis client so that it can get/set keys upon request, so let&rsquo;s create this in a new file <code>redis.go</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewRedisClient</span>(<span style="color:#a6e22e">addr</span>, <span style="color:#a6e22e">password</span> <span style="color:#66d9ef">string</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">redis</span>.<span style="color:#a6e22e">Client</span> {
+	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;configuring redis at %s&#34;</span>, <span style="color:#a6e22e">addr</span>)
+	<span style="color:#a6e22e">rdb</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">redis</span>.<span style="color:#a6e22e">NewClient</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">redis</span>.<span style="color:#a6e22e">Options</span>{
+		<span style="color:#a6e22e">Addr</span>:     <span style="color:#a6e22e">addr</span>,
+		<span style="color:#a6e22e">Password</span>: <span style="color:#a6e22e">password</span>,
+		<span style="color:#a6e22e">DB</span>:       <span style="color:#ae81ff">0</span>,
+	})
+
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">rdb</span>
+}
+</code></pre></div><p>We&rsquo;ll also want some functions to get/set our &ldquo;hits&rdquo; key, so let&rsquo;s add them too:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">a</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">App</span>) <span style="color:#a6e22e">setHits</span>(<span style="color:#a6e22e">val</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">error</span> {
+	<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">rdb</span>.<span style="color:#a6e22e">Set</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>(), <span style="color:#e6db74">&#34;hits&#34;</span>, <span style="color:#a6e22e">val</span>, <span style="color:#ae81ff">0</span>).<span style="color:#a6e22e">Err</span>()
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">a</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">App</span>) <span style="color:#a6e22e">getHits</span>() (<span style="color:#66d9ef">string</span>, <span style="color:#66d9ef">error</span>) {
+	<span style="color:#a6e22e">hits</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">rdb</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>(), <span style="color:#e6db74">&#34;hits&#34;</span>).<span style="color:#a6e22e">Result</span>()
+
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#a6e22e">err</span>
+	}
+
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">hits</span>, <span style="color:#a6e22e">err</span>
+}
+</code></pre></div><p>The requirement states that we need to either create the <code>hits</code> key or increment it each call to <code>/requests</code>, so we&rsquo;ll create that logic as well:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">a</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">App</span>) <span style="color:#a6e22e">updateHits</span>() <span style="color:#66d9ef">error</span> {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">hits</span> <span style="color:#66d9ef">string</span>
+	<span style="color:#a6e22e">hits</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">getHits</span>()
+
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">redis</span>.<span style="color:#a6e22e">Nil</span> { <span style="color:#75715e">// key does not exist, so set it to 1
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">setHits</span>(<span style="color:#e6db74">&#34;1&#34;</span>)
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+		}
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+	}
+
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+	}
+
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">incrementHits</span>(<span style="color:#a6e22e">hits</span>) <span style="color:#75715e">// increment the current value
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">a</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">App</span>) <span style="color:#a6e22e">incrementHits</span>(<span style="color:#a6e22e">hits</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">error</span> {
+	<span style="color:#a6e22e">hitsInt</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">Atoi</span>(<span style="color:#a6e22e">hits</span>)
+
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+	}
+
+	<span style="color:#a6e22e">hitsInt</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+
+	<span style="color:#a6e22e">hits</span> = <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">Itoa</span>(<span style="color:#a6e22e">hitsInt</span>)
+	<span style="color:#66d9ef">return</span> = <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">setHits</span>(<span style="color:#a6e22e">hits</span>)
+}
+
+</code></pre></div><h3 id="routing-requests">Routing Requests<a hidden class="anchor" aria-hidden="true" href="#routing-requests">#</a></h3>
+<p>The last thing our application needs a <code>serveMux</code> in order to route our requests. We need to handle two routes <code>/requests</code> and <code>/queries</code> &ndash; since these routes will utilize the redis connection created as a part of our application, we&rsquo;ll make them methods of our app:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">a</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">App</span>) <span style="color:#a6e22e">handleRequests</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+	<span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">updateHits</span>()
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">WriteHeader</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusInternalServerError</span>)
+		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Write</span>([]byte(<span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>()))
+		<span style="color:#66d9ef">return</span>
+	}
+
+	<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">WriteHeader</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusOK</span>)
+	<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Write</span>([]byte(<span style="color:#e6db74">&#34;Hello, World\n&#34;</span>))
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">a</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">App</span>) <span style="color:#a6e22e">handleQueries</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+	<span style="color:#a6e22e">hits</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">getHits</span>()
+
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">redis</span>.<span style="color:#a6e22e">Nil</span> {
+		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Write</span>([]byte(<span style="color:#e6db74">&#34;0\n&#34;</span>))
+		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">WriteHeader</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusOK</span>)
+		<span style="color:#66d9ef">return</span>
+	}
+
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Write</span>([]byte(<span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>()))
+		<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">WriteHeader</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusInternalServerError</span>)
+		<span style="color:#66d9ef">return</span>
+	}
+
+	<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Write</span>([]byte(<span style="color:#a6e22e">hits</span>))
+	<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">WriteHeader</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">StatusOK</span>)
+}
+</code></pre></div><p>Now our app is ready to be used! Let&rsquo;s throw in an <code>init</code> method so that we can easily run it from our calling function, and we also need a simple method to actually start the http server:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// NewApp returns a new bare application with a webserver configured and ready
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewApp</span>(<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">Config</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">App</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">newApp</span>(<span style="color:#a6e22e">c</span>)
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newApp</span>(<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">Config</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">App</span> {
+	<span style="color:#a6e22e">app</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">App</span>{}
+	<span style="color:#a6e22e">mux</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">NewServeMux</span>()
+	<span style="color:#a6e22e">mux</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/requests&#34;</span>, <span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">handleRequests</span>)
+	<span style="color:#a6e22e">mux</span>.<span style="color:#a6e22e">HandleFunc</span>(<span style="color:#e6db74">&#34;/queries&#34;</span>, <span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">handleQueries</span>)
+
+	<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">mux</span> = <span style="color:#a6e22e">mux</span>
+	<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">rdb</span> = <span style="color:#a6e22e">NewRedisClient</span>(<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">redisAddress</span>, <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">redisPassword</span>)
+	<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">listenAddr</span> = <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;:%d&#34;</span>, <span style="color:#a6e22e">port</span>)
+
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">app</span>
+
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">a</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">App</span>) <span style="color:#a6e22e">Serve</span>() {
+	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Listening on %s&#34;</span>, <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">listenAddr</span>)
+	<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatal</span>(<span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ListenAndServe</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">listenAddr</span>, <span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">mux</span>))
+}
+</code></pre></div><p>Excellent! Now our app can be initialized, and the listener can be started simply by importing the package! This is the last missing piece of this puzzle. To run the application from the command line easily, I used the <a href="https://github.com/spf13/cobra">cobra</a> package. The <a href="https://github.com/spf13/cobra/blob/master/cobra/README.md">usage readme</a> and <a href="https://github.com/spf13/cobra/blob/master/user_guide.md">user guide</a> are helpful with getting setup, but in a nutshell, cobra creates a <code>main.go</code> in your root directory and also creates <code>cmd/root.go</code>. <code>main.go</code> then imports <code>cmd/root.go</code> which contains all the information around how your program handles flags and commands. Ours is simple, as we can see:</p>
+<p><code>main.go</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;github.com/thorntonmc/sre-challenge/cmd&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">cmd</span>.<span style="color:#a6e22e">Execute</span>()
+}
+</code></pre></div><p><code>cmd/root.go</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;os&#34;</span>
+
+	<span style="color:#a6e22e">app</span> <span style="color:#e6db74">&#34;github.com/thorntonmc/sre-challenge/internal&#34;</span>
+
+	<span style="color:#e6db74">&#34;github.com/spf13/cobra&#34;</span>
+
+	<span style="color:#e6db74">&#34;github.com/spf13/viper&#34;</span>
+)
+
+<span style="color:#75715e">// This file also contains the scaffolding for your cli application, but what&#39;s important is what is in rootCmd
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">rootCmd</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">cobra</span>.<span style="color:#a6e22e">Command</span>{
+	<span style="color:#a6e22e">Use</span>:   <span style="color:#e6db74">&#34;sre-challenge&#34;</span>,
+	<span style="color:#a6e22e">Short</span>: <span style="color:#e6db74">&#34;Junior SRE Interview&#34;</span>,
+	<span style="color:#a6e22e">Long</span>:  <span style="color:#e6db74">&#34;Junior SRE Interview&#34;</span>,
+	<span style="color:#a6e22e">Run</span>: <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">cmd</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">cobra</span>.<span style="color:#a6e22e">Command</span>, <span style="color:#a6e22e">args</span> []<span style="color:#66d9ef">string</span>) {
+		<span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">NewConfigFromEnv</span>()
+		<span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">NewApp</span>(<span style="color:#a6e22e">c</span>)
+		<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">Serve</span>()
+	},
+}
+</code></pre></div><p>In a nutshell, cobra will run what&rsquo;s inside <code>rootCmd</code> when the application is run with no parameters, which is what we want as there aren&rsquo;t any flags that are used in this program. The <code>Run</code> function is very simple, we simply initialize our config via the package we wrote earlier, then create a new application via <code>NewApp</code>, and then run our server.</p>
+<p>Now we&rsquo;re ready to test it out! Since we want to keep our a build, tests, and deploys idempotent, lets keep our habits in check by putting our build steps in a <code>Makefile</code></p>
+<p><code>./Makefile</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-makefile" data-lang="makefile">.DEFAULT_GOAL <span style="color:#f92672">:=</span> build <span style="color:#75715e"># default to the build target</span>
+MAKEFLAGS<span style="color:#f92672">=</span> -s .        <span style="color:#75715e"># makefile is silent</span>
+
+BUILD_DIR<span style="color:#f92672">=</span>./build
+
+<span style="color:#a6e22e">fmt</span><span style="color:#f92672">:</span>
+	go fmt ./
+
+<span style="color:#a6e22e">build</span><span style="color:#f92672">:</span> fmt
+	go build  -o <span style="color:#66d9ef">$(</span>BUILD_DIR<span style="color:#66d9ef">)</span>/sre-challenge.go ./main.go
+
+<span style="color:#a6e22e">install</span><span style="color:#f92672">:</span> fmt build
+	go install
+
+<span style="color:#a6e22e">clean</span><span style="color:#f92672">:</span> 
+	rm -rf <span style="color:#66d9ef">$(</span>BUILD_DIR<span style="color:#66d9ef">)</span>
+
+</code></pre></div><p>Cool! Now we when we want to build our application we can simply type <code>make build</code> and the binary will be created in <code>./build/sre-challenge.go</code> &ndash; and since we&rsquo;ve also set <code>build</code> to be our default goal, we can actually just type <code>make</code> to build our application.</p>
+<p>The <code>install</code> target will also install our binary to <code>$GOPATH/bin</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">michaelthornton@work:~/sre-challenge <span style="color:#f92672">[</span>main<span style="color:#f92672">]</span>
+$ make install
+michaelthornton@work:~/sre-challenge <span style="color:#f92672">[</span>main<span style="color:#f92672">]</span>
+$ ls $GOPATH/bin
+cobra         cr            go-outline    gopls         sre-challenge
+</code></pre></div><p>So now we can run our app! Let&rsquo;s try it out</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">michaelthornton@work:~/sre-challenge <span style="color:#f92672">[</span>main<span style="color:#f92672">]</span>
+$ sre-challenge
+2022/01/11 09:56:45 configuring redis at redis.sre-challenge:6379
+2022/01/11 09:56:45 Listening on :8080
+</code></pre></div><p>This is great! However since we have no redis server installed - the server is basically useless. In our next post, we&rsquo;ll deploy this application and a redis cache to a local kubernetes cluster.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://thorntonmc.github.io/tags/sre-challenge/">sre-challenge</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://thorntonmc.github.io/posts/misc/splitting-out-git-repos/">
+    <span class="title">« Prev Page</span>
+    <br>
+    <span>A Reddit SRE Challenge - Part 1</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

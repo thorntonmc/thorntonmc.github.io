@@ -1,6 +1,6 @@
 ---
 title: A Reddit SRE Challenge - Building a Helm Chart
-date: 2022-01-20T00:00:00+
+date: 2022-01-10T00:00:00+
 draft: true
 tags: ["sre-challenge"]
 ---

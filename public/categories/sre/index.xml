@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>sre on Michael Thornton</title>
+    <link>https://thorntonmc.github.io/categories/sre/</link>
+    <description>Recent content in sre on Michael Thornton</description>
+    <image>
+      <url>https://thorntonmc.github.io/papermod-cover.png</url>
+      <link>https://thorntonmc.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://thorntonmc.github.io/categories/sre/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>A Reddit SRE Challenge - Part 1</title>
+      <link>https://thorntonmc.github.io/posts/misc/splitting-out-git-repos/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://thorntonmc.github.io/posts/misc/splitting-out-git-repos/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>A Reddit SRE Challenge - Part 1</title>
+      <link>https://thorntonmc.github.io/posts/sre-challenge/sre-challenge/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://thorntonmc.github.io/posts/sre-challenge/sre-challenge/</guid>
+      <description>Introduction There was a thread on the devops subreddit going around about a interview challenge for a junior SRE position. Considering I&amp;rsquo;ve been doing more work that might be classified under this role, I figured I&amp;rsquo;d give it a try. Lets take a look at the README.md, I&amp;rsquo;ve reworked it a bit for brevity, you can see the original on github, along with all of the code described in this post:</description>
+    </item>
+    
+  </channel>
+</rss>
