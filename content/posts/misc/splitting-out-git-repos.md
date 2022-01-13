@@ -6,9 +6,9 @@ categories: misc
 tags: ["git", "misc"]
 ---
 
-One thing I've been tasked with working on recently is splitting out microservices from a monorepo into their own separate repos. While this may sound trivial, one thing that is essential is to keep the git history associated with these services - which is more complicated than it looks. There's a native tool built into git, `git filter-branch` - but it is quite finiky. 
+One thing I've been tasked with working on recently is splitting out microservices from a monorepo into their own separate repos. While this may sound trivial, one thing that is essential is to keep the git history associated with these services - which is more complicated than it looks. There's a native tool built into git, `git filter-branch` - but it is quite finicky.
 
-Thankfully, a tool exists which offers a one command solution - [git filter repo](https://github.com/newren/git-filter-repo). In fact, the [man page for git filter-branch](https://git-scm.com/docs/git-filter-branch) even reccomends it be used as the tool of choice. 
+Thankfully, a tool exists which offers a one command solution - [git filter repo](https://github.com/newren/git-filter-repo). In fact, the [man page for git filter-branch](https://git-scm.com/docs/git-filter-branch) even recommends it be used as the tool of choice.
 
 ### A Note for MacOS Users
 
@@ -33,7 +33,7 @@ Per the docs, `git filter-repo` requires:
 
 > git >= 2.22.0 at a minimum; some features require git >= 2.24.0 or later
 
-However, I just update to the newest version of git. If you can't update to this natively (I had issues on Ubuntu 18.04), you can do the following:
+However, I just updated to the newest version of git. If you can't update to this natively (I had issues on Ubuntu 18.04), you can do the following:
 
 ```
 sudo add-apt-repository ppa:git-core/ppa
