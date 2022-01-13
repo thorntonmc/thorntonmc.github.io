@@ -44,6 +44,12 @@
                 href="https://thorntonmc.github.io/categories/"
                 />
   </url><url>
+    <loc>https://thorntonmc.github.io/tags/git/</loc>
+  </url><url>
+    <loc>https://thorntonmc.github.io/tags/misc/</loc>
+  </url><url>
+    <loc>https://thorntonmc.github.io/categories/misc/</loc>
+  </url><url>
     <loc>https://thorntonmc.github.io/posts/</loc>
     <xhtml:link
                 rel="alternate"
@@ -69,6 +75,8 @@
                 hreflang="en"
                 href="https://thorntonmc.github.io/series/"
                 />
+  </url><url>
+    <loc>https://thorntonmc.github.io/posts/misc/splitting-out-git-repos/</loc>
   </url><url>
     <loc>https://thorntonmc.github.io/categories/sre/</loc>
   </url><url>
