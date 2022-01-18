@@ -15,7 +15,7 @@ Much of this is heavily curated and toured by [Jon Bodner](https://medium.com/@j
 
 ## Getting Started
 
-The [net/http](https://pkg.go.dev/net/http) reads absolutely beautifully, and the introduction is no different:
+The [net/http](https://pkg.go.dev/net/http) package reads absolutely beautifully, and the introduction is no different:
 
 > Package http provides HTTP client and server implementations.
 
