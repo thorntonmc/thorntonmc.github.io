@@ -15,7 +15,7 @@ Much of this is heavily curated and toured by [Jon Bodner](https://medium.com/@j
 
 ## Getting Started
 
-The [net/http](https://pkg.go.dev/net/http) reads absolutely beautifully, and the introduction is no differet:
+The [net/http](https://pkg.go.dev/net/http) reads absolutely beautifully, and the introduction is no different:
 
 > Package http provides HTTP client and server implementations.
 
@@ -60,7 +60,7 @@ func newClient() *http.Client {
 }
 ```
 
-When you want to make a request, you create a new *http.Request instance with the http.NewRequestWithContext function
+When you want to make a request, you create a new \*http.Request instance with the http.NewRequestWithContext function
 
 ```go
 func newReq() *http.Request {
@@ -199,7 +199,7 @@ func listen(s http.Server) {
 The main problem with our server is that it only handles one path, thankfully `*http.ServeMux` meets the http.Handler interface, and also serves as a router - sending the requests to the correct http.Handler instance, Servemux instances are the most common way of implementing multiple handlers and are critical to any REST API or HTTP server.
 
 You can look at the details of how http.ServeMux does this in its  [ServeHTTP method](https://cs.opensource.google/go/go/+/refs/tags/go1.17.6:src/net/http/server.go;l=2416)
-and its [Handler] method https://cs.opensource.google/go/go/+/refs/tags/go1.17.6:src/net/http/server.go;l=2361 but, essentially, http.ServeMux implements `ServeHTTP(w http.ResponseWriter, r *http.Request)`, satisfying the `http.Handler` interface, so it can be passed in as a Handler to `http.Server`. Its `ServeHTTP` implementation calls the Handler, which parses the path and returns the `http.Handler` used for the request, and then calls that handlers `ServeHTTP` method.
+and its [Handler] method https://cs.opensource.google/go/go/+/refs/tags/go1.17.6:src/net/http/server.go;l=2361 but, essentially, http.ServeMux implements `ServeHTTP(w http.ResponseWriter, r *http.Request)`, satisfying the `http.Handler` interface, so it can be passed in as a Handler to `http.Server`. It’s `ServeHTTP` implementation calls the Handler, which parses the path and returns the `http.Handler` used for the request, and then calls that handlers `ServeHTTP` method.
 
 ```go
 // That sounded a bit confusing, so let's test this out
@@ -291,7 +291,7 @@ func (mux *ServeMux) HandleFunc(pattern string, handler func(ResponseWriter, *Re
 }
 ```
 
-It's more clear what's happening having looked at these two defintions. `http.ServeMux.HandleFunc` takes a path, and a `func(w http.ResponseWriter, r *http.Request)` and typecasts the function to a `HandlerFunc`. Since `HandlerFunc` implements `ServeHTTP`, it's a valid `http.Handler` interface, and can be used in a call to `mux.Handle`
+It's more clear what's happening having looked at these two definitions. `http.ServeMux.HandleFunc` takes a path, and a `func(w http.ResponseWriter, r *http.Request)` and typecasts the function to a `HandlerFunc`. Since `HandlerFunc` implements `ServeHTTP`, it's a valid `http.Handler` interface, and can be used in a call to `mux.Handle`
 
 
 #### One last pitfall
@@ -319,7 +319,7 @@ Using these methods can allow third party packages that have added additional ha
 
 ## Middleware
 
-There is no middleware type in go, just a pattern involving http.Handler instances. Here is our example scenerio:
+There is no middleware type in go, just a pattern involving http.Handler instances. Here is our example scenario:
 
 We want to implement a path `/hello` which returns `Hello, world!`. This sounds simple enough, we simply need a `http.ServeMux` with the path `/hello` and a handler that writes out our message. However, we want an additional piece of logic to run before responding to our request:
 
@@ -368,7 +368,7 @@ handler := ts(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 }))
 ```
 
-Now for the implementation! Our mux handles the `/hello` path with `TerribleSecurityProvider`, instantiated as ts. As `ts` is itself a function that takes a handler, we can then pass in `RequestTimer` to it.
+Now for the implementation! Our mux handles the `/hello` path with `TerribleSecurityProvider`, instantiated as `ts`. As `ts` is itself a function that takes a handler, we can then pass in `RequestTimer` to it.
 
 ```go
 // If ts passes its security check, it runs h.ServeHTTP, in this case RequestTimer.
@@ -390,7 +390,8 @@ func muxWithMiddleware() {
 
 ## Third party packages:
 
-Perhaps its just me, but chaining middleware can be a confusing pattern. [Alice](https://justinas.org/alice-painless-middleware-chaining-for-go) makes chaining middleware as simple as:
+Perhaps it’s just me, but chaining middleware can be a confusing pattern. [Alice](https://justinas.org/alice-painless-middleware-chaining-for-go) makes chaining middleware as simple as:
+
 ```go
 func helloWorldHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("hello, world!"))
