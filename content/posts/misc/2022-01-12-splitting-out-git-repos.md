@@ -1,6 +1,6 @@
 ---
 title: Split out a Git Repo and Keep it's Commit History
-date: 2022-01-12T00:00:00+
+date: 2022-01-12
 draft: false
 categories: misc
 tags: ["git", "misc"]

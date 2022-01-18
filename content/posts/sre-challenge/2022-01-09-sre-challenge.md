@@ -1,6 +1,6 @@
 ---
 title: A Reddit SRE Challenge - Part 1
-date: 2022-01-09T00:00:00+
+date: 2022-01-09
 draft: false
 categories: sre
 tags: ["sre-challenge"]
