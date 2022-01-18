@@ -39,16 +39,24 @@ import (
 
 ## The Client
 
-The client makes HTTP requests, and receives HTTP responses
+The client makes HTTP requests, and receives HTTP responses. Let’s take a look at the client definition:
 
-There is a [default client instance](https://cs.opensource.google/go/go/+/refs/tags/go1.17.6:src/net/http/client.go;l=110) included, providing an empty `&http.Client{}`, but you should always use your own, as it has no timeout
+```go
+type Client struct {
+	Transport RoundTripper
+	CheckRedirect func(req *Request, via []*Request) error
+	Jar CookieJar
+	Timeout time.Duration
+}
+```
+
+There is a [default client instance](https://cs.opensource.google/go/go/+/refs/tags/go1.17.6:src/net/http/client.go;l=110) included, providing an empty `&http.Client{}`, but you should always use your own, as it has no timeout. 
 
 ```go
 var dontUseDefault = http.DefaultClient
 ```
 
-Once you've created your http.Client, you don't need another one. It's designed to properly handle
-simultaneous requests.
+Once you've created your http.Client, you don't need another one. It's designed to properly handle simultaneous requests.
 
 ```go
 func newClient() *http.Client {
@@ -88,11 +96,14 @@ func makeReq() *http.Response {
 }
 ```
 
-The response has several fields with information on the request:
+The real work is being done in `http.Client.Do()` - while there are methods included in the `http.Client` interface such as `Get` and `Post`, those force the usage of `http.NewRequest`, hindering your ability to pass a `context.Context` via `http.NewRequestWithContext`.
 
-1.) The status code
-2.) The text response of the status code
-3.) the response headers. The [`headers`](https://pkg.go.dev/net/http#Header) type is a `map[string][]string` with methods `Get()` and `Set()` to respectively get and set HTTP headers.
+The `*http.Response` has several fields with information on the request:
+1. The status code
+2. The text response of the status code
+3. The response headers. 
+
+The [`headers`](https://pkg.go.dev/net/http#Header) type is a `map[string][]string` with methods `Get()` and `Set()` to respectively get and set HTTP headers.
 
 ```go
 func handleResponse(r *http.Response) {
@@ -391,7 +402,6 @@ func muxWithMiddleware() {
 ## Third party packages:
 
 Perhaps it’s just me, but chaining middleware can be a confusing pattern. [Alice](https://justinas.org/alice-painless-middleware-chaining-for-go) makes chaining middleware as simple as:
-
 ```go
 func helloWorldHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("hello, world!"))
