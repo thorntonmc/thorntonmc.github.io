@@ -2,11 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://thorntonmc.github.io/about/</loc>
-    <lastmod>2019-02-28T00:00:00+00:00</lastmod>
+    <loc>https://thorntonmc.github.io/categories/</loc>
+    <lastmod>2022-01-17T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="tr"
+                href="https://thorntonmc.github.io/tr/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://thorntonmc.github.io/categories/"
+                />
+  </url><url>
+    <loc>https://thorntonmc.github.io/tags/go/</loc>
+    <lastmod>2022-01-17T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thorntonmc.github.io/categories/go/</loc>
+    <lastmod>2022-01-17T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thorntonmc.github.io/tags/go-stdlib/</loc>
+    <lastmod>2022-01-17T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://thorntonmc.github.io/</loc>
-    <lastmod>2019-02-28T00:00:00+00:00</lastmod>
+    <lastmod>2022-01-17T00:00:00+00:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="tr"
@@ -18,7 +37,58 @@
                 href="https://thorntonmc.github.io/"
                 />
   </url><url>
-    <loc>https://thorntonmc.github.io/posts/sre-challenge/sre-challenge/</loc>
+    <loc>https://thorntonmc.github.io/tags/misc/</loc>
+    <lastmod>2022-01-17T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thorntonmc.github.io/posts/</loc>
+    <lastmod>2022-01-17T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="tr"
+                href="https://thorntonmc.github.io/tr/posts/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://thorntonmc.github.io/posts/"
+                />
+  </url><url>
+    <loc>https://thorntonmc.github.io/posts/go/2022-01-17-net-http/</loc>
+    <lastmod>2022-01-17T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thorntonmc.github.io/tags/</loc>
+    <lastmod>2022-01-17T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="tr"
+                href="https://thorntonmc.github.io/tr/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://thorntonmc.github.io/tags/"
+                />
+  </url><url>
+    <loc>https://thorntonmc.github.io/tags/git/</loc>
+    <lastmod>2022-01-12T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thorntonmc.github.io/categories/misc/</loc>
+    <lastmod>2022-01-12T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thorntonmc.github.io/posts/misc/2022-01-12-splitting-out-git-repos/</loc>
+    <lastmod>2022-01-12T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thorntonmc.github.io/posts/sre-challenge/2022-01-09-sre-challenge/</loc>
+    <lastmod>2022-01-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thorntonmc.github.io/categories/sre/</loc>
+    <lastmod>2022-01-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thorntonmc.github.io/tags/sre-challenge/</loc>
+    <lastmod>2022-01-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://thorntonmc.github.io/about/</loc>
+    <lastmod>2019-02-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://thorntonmc.github.io/archives/</loc>
     <xhtml:link
@@ -32,44 +102,6 @@
                 href="https://thorntonmc.github.io/archives/"
                 />
   </url><url>
-    <loc>https://thorntonmc.github.io/categories/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="tr"
-                href="https://thorntonmc.github.io/tr/categories/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://thorntonmc.github.io/categories/"
-                />
-  </url><url>
-    <loc>https://thorntonmc.github.io/tags/git/</loc>
-  </url><url>
-    <loc>https://thorntonmc.github.io/tags/go/</loc>
-  </url><url>
-    <loc>https://thorntonmc.github.io/categories/go/</loc>
-  </url><url>
-    <loc>https://thorntonmc.github.io/tags/go-stdlib/</loc>
-  </url><url>
-    <loc>https://thorntonmc.github.io/tags/misc/</loc>
-  </url><url>
-    <loc>https://thorntonmc.github.io/categories/misc/</loc>
-  </url><url>
-    <loc>https://thorntonmc.github.io/posts/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="tr"
-                href="https://thorntonmc.github.io/tr/posts/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://thorntonmc.github.io/posts/"
-                />
-  </url><url>
-    <loc>https://thorntonmc.github.io/posts/go/net-http/</loc>
-  </url><url>
     <loc>https://thorntonmc.github.io/search/</loc>
   </url><url>
     <loc>https://thorntonmc.github.io/series/</loc>
@@ -82,24 +114,6 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://thorntonmc.github.io/series/"
-                />
-  </url><url>
-    <loc>https://thorntonmc.github.io/posts/misc/splitting-out-git-repos/</loc>
-  </url><url>
-    <loc>https://thorntonmc.github.io/categories/sre/</loc>
-  </url><url>
-    <loc>https://thorntonmc.github.io/tags/sre-challenge/</loc>
-  </url><url>
-    <loc>https://thorntonmc.github.io/tags/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="tr"
-                href="https://thorntonmc.github.io/tr/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://thorntonmc.github.io/tags/"
                 />
   </url>
 </urlset>
