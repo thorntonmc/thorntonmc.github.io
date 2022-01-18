@@ -20,6 +20,16 @@
     </item>
     
     
+    <item>
+      <title>Reading the Go Standard Library - net/http</title>
+      <link>https://thorntonmc.github.io/posts/go/net-http/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://thorntonmc.github.io/posts/go/net-http/</guid>
+      <description>A piece of advice I often see when learning a new language is to read the standard library. So I&amp;rsquo;m taking a tour through go&amp;rsquo;s stdlib in order to get a more comprehensive understanding of the library.
+I&amp;rsquo;ve always liked the site Learn X in Y Minutes, and decided as I went through this to write out functions and code in a similar manner. The blog post has split out the comments into Markdown, but if you just wish to see the code, you can do so on github.</description>
+    </item>
+    
     
     <item>
       <title>Split out a Git Repo and Keep it&#39;s Commit History</title>

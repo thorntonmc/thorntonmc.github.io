@@ -46,6 +46,12 @@
   </url><url>
     <loc>https://thorntonmc.github.io/tags/git/</loc>
   </url><url>
+    <loc>https://thorntonmc.github.io/tags/go/</loc>
+  </url><url>
+    <loc>https://thorntonmc.github.io/categories/go/</loc>
+  </url><url>
+    <loc>https://thorntonmc.github.io/tags/go-stdlib/</loc>
+  </url><url>
     <loc>https://thorntonmc.github.io/tags/misc/</loc>
   </url><url>
     <loc>https://thorntonmc.github.io/categories/misc/</loc>
@@ -61,6 +67,8 @@
                 hreflang="en"
                 href="https://thorntonmc.github.io/posts/"
                 />
+  </url><url>
+    <loc>https://thorntonmc.github.io/posts/go/net-http/</loc>
   </url><url>
     <loc>https://thorntonmc.github.io/search/</loc>
   </url><url>
